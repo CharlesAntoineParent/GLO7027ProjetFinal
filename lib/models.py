@@ -1,9 +1,11 @@
-"""Module for custom models."""
+"""Module defining models."""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torchvision.models as models
 
 
+## Models definition
 class UNet(nn.Module):
     """Convolutional networks for image segmentation."""
     def __init__(self) -> None:
