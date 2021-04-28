@@ -3,7 +3,7 @@
 
 ## Parameters definition
 hyperparameters_Adam_0 = {
-  "epochs": 32,
-  "batch_size": 32,
+  "epochs": 2,
+  "batch_size": 64,
   "hyperparameters_optimizer": {"lr": 0.001}
 }
