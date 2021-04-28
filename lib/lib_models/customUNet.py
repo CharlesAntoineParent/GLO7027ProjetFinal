@@ -1,13 +1,15 @@
-"""Module defining models."""
+"""Module defining UNet custom model."""
+
+
+## Import
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
 
 
-## Models definition
-class UNet(nn.Module):
-    """Convolutional networks for image segmentation."""
+## Model definition
+class customUNet(nn.Module):
     def __init__(self) -> None:
         super().__init__()
 
@@ -58,14 +60,6 @@ class UNet(nn.Module):
         self.s1 = nn.Sigmoid()
 
     def forward(self, inputs: torch.Tensor) -> torch.Tensor:
-        """Segment images using the U-Net architecture.
-
-        Args:
-            inputs (torch.Tensor): Masks of shape [Nx1x256x1600].
-
-        Returns:
-            torch.Tensor: Predictions of shape [Nx4x256x1600].
-        """
         c1 = F.elu(self.c11(inputs))
         c1 = F.elu(self.c12(c1))
         p1 = self.p1(c1)

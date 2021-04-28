@@ -1,0 +1,32 @@
+{"dataset": "datasets.data_CUB200", 
+    "flows": [
+    {
+        "type": "SEPARATE_DATA",
+        "flow": "separateData.separate_images_15first_flow"
+    }, 
+    {
+        "type": "LOAD_DATA",
+        "flow": "loadData.load_images_flow",
+        "transformation": "transformations.normalize_with_CUB200",
+        "split": "splits.no_val"
+    }, 
+    {
+        "type": "INITIALIZE_MODEL",
+        "flow": "initializeModel.initialize_resnet18_flow",
+        "initialization": "initializations.pretrained", 
+        "network": "None"
+    }, 
+    {
+        "type": "TRAIN_MODEL",
+        "flow": "trainModel.train_model_flow",
+        "device": "devices.cuda", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam_0", 
+        "optimizer": "optimizers.Adam_optimizer",
+        "criterion": "losses.CrossEntropy_criterion",
+        "metrics": ["metrics.accuracy_metric", 
+                    "metrics.accuracy_metric"]
+    }, 
+    {
+        "type": "ANALYZE_RESULTS"
+    }]
+}
