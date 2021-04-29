@@ -1,5 +1,14 @@
+"""Module defining Irma model."""
 
 
+## Import
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torchvision.models as models
+
+
+## Model definition
 class Encoder(nn.Module):
     def __init__(self):
         super(Encoder, self).__init__()
@@ -18,7 +27,6 @@ class Encoder(nn.Module):
         
         return x
 
-
 class Decoder(nn.Module):
     def __init__(self):
         super(Decoder, self).__init__()
@@ -36,8 +44,6 @@ class Decoder(nn.Module):
         x = F.relu(self.conv2(x))
         x = torch.tanh(self.conv1(x)) # last layer before output is tanh, since the images are normalized and 0-centered
         return x
-
-
 
 class LNN(nn.Module):
     def __init__(self, num_of_linear_layers, type):
@@ -82,8 +88,6 @@ class LNN(nn.Module):
         for layer in self.linear_layer:
             x = F.relu(layer(x))
         return x
-
-
 
 class irma(nn.Module):
     def __init__(self, *args, **kwargs):
