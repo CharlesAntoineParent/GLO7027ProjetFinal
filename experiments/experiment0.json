@@ -23,8 +23,7 @@
         "hyperparameters": "hyperparameters.hyperparameters_Adam_0", 
         "optimizer": "optimizers.Adam_optimizer",
         "criterion": "losses.CrossEntropy_criterion",
-        "metrics": ["metrics.accuracy_metric", 
-                    "metrics.accuracy_metric"]
+        "metrics": "metrics.accuracy_metric"
     }, 
     {
         "type": "ANALYZE_RESULTS"

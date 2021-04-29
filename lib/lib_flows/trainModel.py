@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 
 ## Model training flows definition
-def train_model_flow(device, hyperparameters, model, optimizer, criterion, metrics, train_dataset, test_dataset, val_dataset = None):
+def train_model_flow(device, hyperparameters, model, optimizer, criterion, metric, train_dataset, test_dataset, val_dataset = None):
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=hyperparameters['batch_size'], shuffle=True)
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=hyperparameters['batch_size'], shuffle=False)
 
@@ -17,13 +17,12 @@ def train_model_flow(device, hyperparameters, model, optimizer, criterion, metri
     else:
         val_loader = None
 
-    learn_results = learn(device, hyperparameters, model, optimizer, criterion, metrics, train_loader, val_loader)
-
-    final_train_evaluation = evaluate(learn_results[0], criterion, metrics, train_loader, device)
-    final_test_evaluation = evaluate(learn_results[0], criterion, metrics, test_loader, device)
+    learn_results = learn(device, hyperparameters, model, optimizer, criterion, metric, train_loader, val_loader)
+    final_train_evaluation = evaluate(learn_results[0], criterion, metric, train_loader, device)
+    final_test_evaluation = evaluate(learn_results[0], criterion, metric, test_loader, device)
 
     if val_dataset is not None:
-        final_val_evaluation = evaluate(learn_results[0], criterion, metrics, val_loader, device)
+        final_val_evaluation = evaluate(learn_results[0], criterion, metric, val_loader, device)
         training_process_results = learn_results + [final_train_evaluation, final_val_evaluation, final_test_evaluation]
     else:
         training_process_results = learn_results + [final_train_evaluation, final_test_evaluation]
@@ -32,7 +31,7 @@ def train_model_flow(device, hyperparameters, model, optimizer, criterion, metri
 
 
 ## Utils function
-def learn(device, hyperparameters, model, optimizer, criterion, metrics, train_loader, val_loader = None):
+def learn(device, hyperparameters, model, optimizer, criterion, metric, train_loader, val_loader = None):
     instantiated_optimizer = optimizer(model.parameters(), hyperparameters['hyperparameters_optimizer'])
 
     model.to(device)
@@ -57,13 +56,13 @@ def learn(device, hyperparameters, model, optimizer, criterion, metrics, train_l
             running_loss.backward()
             instantiated_optimizer.step()
 
-        train_evaluation = evaluate(model, criterion, metrics, train_loader, device)
+        train_evaluation = evaluate(model, criterion, metric, train_loader, device)
         
         epoch_values.append(epoch + 1)
         train_evaluations.append(train_evaluation)
 
         if val_loader is not None:
-            val_evaluation = evaluate(model, criterion, metrics, val_loader, device)
+            val_evaluation = evaluate(model, criterion, metric, val_loader, device)
             val_evaluations.append(val_evaluation)
 
         print(f"\nepoch {epoch + 1}/{hyperparameters['epochs']}, " + 
@@ -79,28 +78,43 @@ def learn(device, hyperparameters, model, optimizer, criterion, metrics, train_l
 
     return learn_results
 
-def evaluate(model, criterion, metrics, loader, device):
+def evaluate(model, criterion, metric, loader, device):
     model.to(device)
 
     model.eval()
 
     loss_average = 0
-    metric_averages = [0]*len(metrics)
 
-    with torch.no_grad():
-        for input_batch, target_batch in loader:
-            input_batch = input_batch.to(device)
-            target_batch = target_batch.to(device)
+    if type(metric) == list:
+        metric_average = [0]*len(metric)
 
-            output_batch = model(input_batch)
-            evaluation_loss = float(criterion(output_batch, target_batch))
+        with torch.no_grad():
+            for input_batch, target_batch in loader:
+                input_batch = input_batch.to(device)
+                target_batch = target_batch.to(device)
 
-            evaluation_metrics = [None]*len(metrics)
-            for index, metric in enumerate(metrics):
-                evaluation_metrics[index] = metric(output_batch, target_batch)
+                output_batch = model(input_batch)
 
-            loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
-            metric_averages = [metric_average + evaluation_metric*(len(input_batch)/len(loader.dataset)) 
-                                for metric_average, evaluation_metric in zip(metric_averages, evaluation_metrics)]
+                evaluation_loss = float(criterion(output_batch, target_batch))
+                loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
+
+                evaluation_metric = [metric(output_batch, target_batch) for metric in metric]
+                metric_average = [metric_average + evaluation_metric*(len(input_batch)/len(loader.dataset)) 
+                                    for metric_average, evaluation_metric in zip(metric_average, evaluation_metric)]
+    else:
+        metric_average = 0
+
+        with torch.no_grad():
+            for input_batch, target_batch in loader:
+                input_batch = input_batch.to(device)
+                target_batch = target_batch.to(device)
+
+                output_batch = model(input_batch)
+
+                evaluation_loss = float(criterion(output_batch, target_batch))
+                loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
+
+                evaluation_metric = metric(output_batch, target_batch)
+                metric_average += evaluation_metric*(len(input_batch)/len(loader.dataset))
     
-    return [loss_average, metric_averages]
+    return [loss_average, metric_average]
