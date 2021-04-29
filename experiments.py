@@ -37,6 +37,7 @@ def parse_experiment(experiment):
     return experiment
 
 def execute_experiment(experiment):
+    models = []
     results = []
     for flow in experiment['flows']:
         if flow['type'] == "SEPARATE_DATA":
@@ -46,11 +47,11 @@ def execute_experiment(experiment):
             data = flow['flow'](experiment['dataset'], flow['transformation'], flow['split'])
 
         if flow['type'] == "INITIALIZE_MODEL":
-            model = flow['flow'](flow['initialization'], experiment['dataset'], flow['network'])
+            models.append(flow['flow'](flow['initialization'], experiment['dataset'], flow['network']))
 
         if flow['type'] == "TRAIN_MODEL":
             results.append(flow['flow'](flow['device'], flow['hyperparameters'], 
-                                        model, flow['optimizer'], flow['criterion'], flow['metrics'], 
+                                        models[-1], flow['optimizer'], flow['criterion'], flow['metrics'], 
                                         *data))
 
         if flow['type'] == "ANALYZE_RESULTS":
