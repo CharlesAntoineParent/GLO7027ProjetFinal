@@ -1,4 +1,3 @@
-# pylint:disable=undefined-variable
 """Module running experiments."""
 
 
