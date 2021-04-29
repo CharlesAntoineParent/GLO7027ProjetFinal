@@ -1,7 +1,7 @@
 
 
 class Encoder(nn.Module):
-    def __init__(self):
+    def __init__(self,capacity):
         super(Encoder, self).__init__()
         c = capacity
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=c, kernel_size=4, stride=2, padding=1) # out: c x 14 x 14
@@ -20,18 +20,18 @@ class Encoder(nn.Module):
 
 
 class Decoder(nn.Module):
-    def __init__(self):
+    def __init__(self,capacity):
         super(Decoder, self).__init__()
-        c = capacity
+        self.c = capacity
         self.fc = nn.Linear(in_features=latent_dims, out_features=c*7*7)
-        self.conv3 = nn.ConvTranspose2d(in_channels=c, out_channels=c*2, kernel_size=1)
-        self.conv2 = nn.ConvTranspose2d(in_channels=c*2, out_channels=c, kernel_size=4, stride=2, padding=1)
-        self.conv1 = nn.ConvTranspose2d(in_channels=c, out_channels=1, kernel_size=4, stride=2, padding=1)
+        self.conv3 = nn.ConvTranspose2d(in_channels=self.c, out_channels=c*2, kernel_size=1)
+        self.conv2 = nn.ConvTranspose2d(in_channels=self.c*2, out_channels=c, kernel_size=4, stride=2, padding=1)
+        self.conv1 = nn.ConvTranspose2d(in_channels=self.c, out_channels=1, kernel_size=4, stride=2, padding=1)
         
             
     def forward(self, x):
         x = self.fc(x)
-        x = x.view(x.size(0), capacity, 7, 7) # unflatten batch of feature vectors to a batch of multi-channel feature maps
+        x = x.view(x.size(0), self.c, 7, 7) # unflatten batch of feature vectors to a batch of multi-channel feature maps
         x = F.relu(self.conv3(x))
         x = F.relu(self.conv2(x))
         x = torch.tanh(self.conv1(x)) # last layer before output is tanh, since the images are normalized and 0-centered
@@ -85,12 +85,12 @@ class LNN(nn.Module):
 
 
 
-class irma(nn.Module):
-    def __init__(self, *args, **kwargs):
-        super(Autoencoder, self).__init__()
-        self.encoder = Encoder()
+class Irma(nn.Module):
+    def __init__(self,capacity, *args, **kwargs):
+        super(Irma, self).__init__()
+        self.encoder = Encoder(capacity)
         self.lnn = LNN(*args, **kwargs)
-        self.decoder = Decoder()
+        self.decoder = Decoder(capacity)
     
     def forward(self, x):
         latent = self.encoder(x)
