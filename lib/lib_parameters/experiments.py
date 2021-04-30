@@ -1,4 +1,4 @@
-"""Module defining parameters of the possible datasets."""
+"""Module defining parameters of the possible experiments."""
 
 
 ## Parameters definition

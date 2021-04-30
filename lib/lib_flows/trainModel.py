@@ -18,14 +18,28 @@ def train_model_flow(device, hyperparameters, model, optimizer, criterion, metri
         val_loader = None
 
     learn_results = learn(device, hyperparameters, model, optimizer, criterion, metric, train_loader, val_loader)
-    final_train_evaluation = evaluate(learn_results[0], criterion, metric, train_loader, device)
-    final_test_evaluation = evaluate(learn_results[0], criterion, metric, test_loader, device)
+    final_train_evaluation = evaluate(learn_results['model'], criterion, metric, train_loader, device)
+    final_test_evaluation = evaluate(learn_results['model'], criterion, metric, test_loader, device)
 
     if val_dataset is not None:
-        final_val_evaluation = evaluate(learn_results[0], criterion, metric, val_loader, device)
-        training_process_results = learn_results + [final_train_evaluation, final_val_evaluation, final_test_evaluation]
+        final_val_evaluation = evaluate(learn_results['model'], criterion, metric, val_loader, device)
+        training_process_results = learn_results
+        training_process_results['evaluations'] =   {
+                                                    "train_loss": final_train_evaluation[0], 
+                                                    "train_metrics": final_train_evaluation[1], 
+                                                    "val_loss": final_val_evaluation[0], 
+                                                    "val_metrics": final_val_evaluation[1], 
+                                                    "test_loss": final_test_evaluation[0],
+                                                    "test_metrics": final_test_evaluation[1]
+                                                    }
     else:
-        training_process_results = learn_results + [final_train_evaluation, final_test_evaluation]
+        training_process_results = learn_results 
+        training_process_results['evaluations'] =   {
+                                                    "train_loss": final_train_evaluation[0], 
+                                                    "train_metrics": final_train_evaluation[1], 
+                                                    "test_loss": final_test_evaluation[0],
+                                                    "test_metrics": final_test_evaluation[1]
+                                                    }
 
     return training_process_results
 
@@ -72,9 +86,24 @@ def learn(device, hyperparameters, model, optimizer, criterion, metric, train_lo
             print(f", val_loss : {val_evaluation[0]}, val_metric : {val_evaluation[1]}")
 
     if val_loader is not None:
-        learn_results = [model, train_evaluations, val_evaluations]
+        learn_results = {
+                        "model": model, 
+                        "histories": {
+                                     "epoch_values": epoch_values, 
+                                     "train_losses_history": [train_evaluation[0] for train_evaluation in train_evaluations], 
+                                     "train_metrics_history": [train_evaluation[1] for train_evaluation in train_evaluations], 
+                                     "val_losses_history": [val_evaluation[0] for val_evaluation in val_evaluations], 
+                                     "val_metrics_history": [val_evaluation[1] for val_evaluation in val_evaluations]
+                                     }
+                        }
     else:
-        learn_results = [model, train_evaluations]
+        learn_results = {"model": model, 
+                        "histories": {
+                                     "epoch_values": epoch_values, 
+                                     "train_losses_history": [train_evaluation[0] for train_evaluation in train_evaluations], 
+                                     "train_metrics_history": [train_evaluation[1] for train_evaluation in train_evaluations]
+                                     }
+                        }
 
     return learn_results
 
