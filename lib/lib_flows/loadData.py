@@ -4,6 +4,8 @@
 ## Import
 import torchvision
 
+from torchvision.datasets.mnist import MNIST
+from torchvision.datasets.cifar import CIFAR10
 from sklearn.model_selection import train_test_split
 
 
@@ -22,5 +24,17 @@ def load_images_flow(dataset, transformation, split):
         dataset_trainVal = torchvision.datasets.ImageFolder(root=train_path, transform=transformation)
         dataset_test = torchvision.datasets.ImageFolder(root=test_path, transform=transformation)
         dataset_train, dataset_val = train_test_split(dataset_trainVal, test_size=split, random_state=0)
+
+        return [dataset_train, dataset_test, dataset_val]
+
+def load_MNIST_flow(dataset, transformation, split):
+    dataset_train = MNIST(train=True, download=True)
+    dataset_test = MNIST(train=False, download=True)
+
+    if split == 0:
+        return [dataset_train, dataset_test]
+
+    else:
+        dataset_train, dataset_val = train_test_split(dataset_train, test_size=split, random_state=0)
 
         return [dataset_train, dataset_test, dataset_val]

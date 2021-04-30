@@ -7,11 +7,11 @@ import torch.nn.functional as F
 
 
 ## Model definition
-class LNN(nn.Module):
-    def __init__(self, capacity, num_of_linear_layers, type):
+class Linear(nn.Module):
+    def __init__(self, capacity, num_of_linear_layers = 4, type = "linear"):
         self.capacity = capacity
         self.num_of_linear_layers = num_of_linear_layers
-        super(LNN, self).__init__()
+        super(Linear, self).__init__()
 
         if type == "linear":
             self.linear_layer = nn.ModuleList([nn.Linear(in_features=int(self.capacity*1.5), 
@@ -58,3 +58,7 @@ class LNN(nn.Module):
         for layer in self.linear_layer:
             x = F.relu(layer(x))
         return x
+
+    @property
+    def label(self):
+        return "irma.Linear"

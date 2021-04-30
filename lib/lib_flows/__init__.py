@@ -1,1 +1,1 @@
-__all__ = ['constructGraphics', 'constructStatistics', 'saveResults', 'initializeModel', 'loadData', 'separateData', 'trainModel']
+__all__ = ['constructGraphics', 'constructStatistics', 'saveResults', 'initializeModel', 'loadData', 'extractData', 'separateData', 'trainModel']

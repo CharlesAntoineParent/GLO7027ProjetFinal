@@ -15,3 +15,7 @@ class Encoder(nn.Module):
     def forward(self, x):
         fc1 = self.relu(self.fc1(x.view(-1, self.capacity)))
         return fc1
+
+    @property
+    def label(self):
+        return "classicEncoder.Encoder"

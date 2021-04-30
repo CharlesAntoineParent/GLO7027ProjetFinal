@@ -53,6 +53,15 @@ def execute_experiment(experiment):
     results['statistics'] = {}
 
     for flow in experiment['flows']:
+        if flow['type'] == "EXTRACT_DATA":
+            print("===== Running extractData flow =====")
+
+            start = time.time()
+            execute_extractData_flow(flow, experiment)
+            end = time.time()
+
+            print(f"===== extractData flow done in {end - start} sec ===== \n")
+
         if flow['type'] == "SEPARATE_DATA":
             print("===== Running separateData flow =====")
 
@@ -112,6 +121,9 @@ def execute_experiment(experiment):
 
 
 ## Utils function
+def execute_extractData_flow(flow, experiment):
+    flow['flow'](experiment['dataset'])
+
 def execute_separateData_flow(flow, experiment):
     flow['flow'](experiment['dataset'])
 

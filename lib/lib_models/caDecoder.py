@@ -15,3 +15,7 @@ class Decoder(nn.Module):
     def forward(self, x):
         fc1 = self.sigmoid(self.fc1(x))
         return fc1
+
+    @property
+    def label(self):
+        return "caDecoder.Decoder"
