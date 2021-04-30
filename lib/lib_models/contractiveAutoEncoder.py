@@ -4,7 +4,6 @@ import torch.nn.functional as F
 import torchvision.models as models
 
 
-
 class CAE(nn.Module):
 	def __init__(self):
 		super(CAE, self).__init__()
