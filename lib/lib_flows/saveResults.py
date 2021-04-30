@@ -4,6 +4,7 @@
 ## Import
 import json
 import torch
+import os
 
 
 ## Results saving flows definition
@@ -27,17 +28,29 @@ def save_results_flow(experiment, paths, results):
 
 ## Utils function
 def save_evaluation(evaluation, path, name):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
     with open(path + name + ".json", 'w') as file:
         json.dump(evaluation, file, indent=1)
 
 def save_model(model, path, name):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
     torch.save(model.state_dict(), path + name + ".pth")
 
 def save_history(history, path, name):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
     with open(path + name + ".json", 'w') as file:
         json.dump(history, file, indent=1)
 
 def save_graphic(graphic, path, name):
+    if not os.path.exists(path):
+        os.makedirs(path)
+        
     graphic.savefig(path + name + ".pdf")
 
 def save_statistic(statistic, path, name):

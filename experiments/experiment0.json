@@ -23,7 +23,7 @@
         "type": "TRAIN_MODEL",
         "flow": "trainModel.train_model_flow",
         "device": "devices.cuda", 
-        "hyperparameters": "hyperparameters.hyperparameters_Adam_0", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
         "optimizer": "optimizers.Adam_optimizer",
         "criterion": "losses.CrossEntropy_criterion",
         "metrics": "metrics.accuracy_metric",
@@ -37,14 +37,37 @@
             }
     }, 
     {
+        "type": "INITIALIZE_MODEL",
+        "flow": "initializeModel.initialize_resnet18_flow",
+        "initialization": "initializations.pretrained", 
+        "network": "None"
+    }, 
+    {
+        "type": "TRAIN_MODEL",
+        "flow": "trainModel.train_model_flow",
+        "device": "devices.cuda", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
+        "optimizer": "optimizers.Adam_optimizer",
+        "criterion": "losses.CrossEntropy_criterion",
+        "metrics": "metrics.accuracy_metric",
+        "labels": 
+            {
+                "model": "resnet18",
+                "hyperparameters": "lr=0.002",
+                "optimizer": "Adam",
+                "criterion": "CrossEntropy", 
+                "metrics": "Accuracy"
+            }
+    }, 
+    {
         "type": "CONSTRUCT_GRAPHICS",
         "flow": "constructGraphics.construct_loss_graphics_flow", 
-        "arguments": ["train_val"]
+        "arguments": ["train", "train_val"]
     },
     {
         "type": "CONSTRUCT_GRAPHICS",
         "flow": "constructGraphics.construct_metrics_graphics_flow", 
-        "arguments": ["train_val"]
+        "arguments": ["train", "train_val"]
     },
     {
         "type": "SAVE_RESULTS",

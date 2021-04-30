@@ -138,9 +138,9 @@ def loss_curves(results, history, dataset = ""):
     hyperparameters_labels = []
 
     for labels in results['labels']:
-        model_labels.append('model')
-        optimizer_labels.append('optimizer')
-        hyperparameters_labels.append('hyperparameters')
+        model_labels.append(labels['model'])
+        optimizer_labels.append(labels['optimizer'])
+        hyperparameters_labels.append(labels['hyperparameters'])
 
     if len(set(model_labels)) > 1:
         non_unique_labels.append("model")
@@ -170,9 +170,9 @@ def metrics_curves(results, history, dataset = ""):
     hyperparameters_labels = []
 
     for labels in results['labels']:
-        model_labels.append('model')
-        optimizer_labels.append('optimizer')
-        hyperparameters_labels.append('hyperparameters')
+        model_labels.append(labels['model'])
+        optimizer_labels.append(labels['optimizer'])
+        hyperparameters_labels.append(labels['hyperparameters'])
 
     if len(set(model_labels)) > 1:
         non_unique_labels.append("model")
