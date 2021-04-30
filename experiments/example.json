@@ -9,7 +9,7 @@
     }, 
     {
         "type": "LOAD_DATA",
-        "flow": "loadData.load_images_flow",
+        "flow": "loadData.load_CUB200_flow",
         "transformation": "transformations.normalize_with_CUB200",
         "split": "splits.average_val"
     }, 

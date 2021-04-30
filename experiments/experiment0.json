@@ -4,10 +4,6 @@
     "flows": 
     [
     {
-        "type": "EXTRACT_DATA",
-        "flow": "extractData.extract_MNIST_flow"
-    }, 
-    {
         "type": "LOAD_DATA",
         "flow": "loadData.load_MNIST_flow",
         "transformation": "transformations.default_transformation",

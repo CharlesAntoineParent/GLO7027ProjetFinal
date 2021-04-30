@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 
 
 ## Data loading flows definition
-def load_images_flow(dataset, transformation, split):
+def load_CUB200_flow(dataset, transformation, split):
     train_path = dataset['train_path']
     test_path = dataset['test_path']
 
@@ -28,13 +28,20 @@ def load_images_flow(dataset, transformation, split):
         return [dataset_train, dataset_test, dataset_val]
 
 def load_MNIST_flow(dataset, transformation, split):
-    dataset_train = MNIST(train=True, download=True)
-    dataset_test = MNIST(train=False, download=True)
+    path = dataset['data_separated_path']
+
+    dataset_train = MNIST(path, train=True, download=False, transform=transformation)
+    dataset_test = MNIST(path, train=False, download=False, transform=transformation)
 
     if split == 0:
+        dataset_train = MNIST(path, train=True, download=False, transform=transformation)
+        dataset_test = MNIST(path, train=False, download=False, transform=transformation)
+
         return [dataset_train, dataset_test]
 
     else:
-        dataset_train, dataset_val = train_test_split(dataset_train, test_size=split, random_state=0)
+        dataset_trainVal = MNIST(path, train=True, download=False, transform=transformation)
+        dataset_test = MNIST(path, train=False, download=False, transform=transformation)
+        dataset_train, dataset_val = train_test_split(dataset_trainVal, test_size=split, random_state=0)
 
         return [dataset_train, dataset_test, dataset_val]
