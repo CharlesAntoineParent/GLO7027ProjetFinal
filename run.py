@@ -6,7 +6,7 @@ import experiments
 
 
 ## List of experiments to run
-experiments_list = ["experiment0"]
+experiments_list = ["experimentClassic", "experimentContractive", "experimentIrma"]
 
 
 ## Running experiments
