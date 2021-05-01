@@ -8,23 +8,34 @@ import numpy as np
 
 
 ## Model initialization flows definition
-def initialize_resnet18_flow(initialization, dataset, network = None):
+def initialize_torchvision_model_flow(initialization, dataset, network):
     if initialization == "pretrained":
-        model = torchvision.models.resnet18(True)
+        if network == "resnet18":
+            model = torchvision.models.resnet18(True)
     else:
-        model = torchvision.models.resnet18(False)
-        model.apply(initialization)
+        if network == "resnet18":
+            model = torchvision.models.resnet18(False)
+            model.apply(initialization)
 
     model.fc = torch.nn.Linear(512, dataset['nb_classes'])
-    model.type = "Classic"
+    model.type = "Torchvision"
 
     return model
 
-def initialize_classicAutoEncoder_HalfHalf_flow(initialization, dataset, network):
+def initialize_autoencoder_base_flow(initialization, dataset, network):
     shape = dataset['shape']
     capacity = np.prod(shape)
     
-    model = network(capacity, 1.5, 1.5)
+    model = network(capacity, 1.1)
+    model.apply(initialization)
+
+    return model
+
+def initialize_irma_autoencoder_base_base_flow(initialization, dataset, network):
+    shape = dataset['shape']
+    capacity = np.prod(shape)
+    
+    model = network(capacity, 1.1, 4)
     model.apply(initialization)
 
     return model

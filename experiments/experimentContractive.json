@@ -1,0 +1,46 @@
+{
+    "label": "experimentContractive", 
+    "dataset": "datasets.data_MNIST", 
+    "flows": 
+    [
+    {
+        "type": "LOAD_DATA",
+        "flow": "loadData.load_MNIST_flow",
+        "transformation": "transformations.normalize_with_MNIST",
+        "split": "splits.average_val"
+    }, 
+    {
+        "type": "INITIALIZE_MODEL",
+        "flow": "initializeModel.initialize_autoencoder_base_flow",
+        "initialization": "initializations.default_init", 
+        "network": "contractiveAutoencoder.Autoencoder"
+    }, 
+    {
+        "type": "TRAIN_MODEL",
+        "flow": "trainModel.train_model_flow",
+        "device": "devices.cuda", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
+        "optimizer": "optimizers.Adam_optimizer",
+        "criterion": "losses.contractive_criterion",
+        "metrics": "None",
+        "labels": 
+            {
+                "model": "ContractiveAutoencoder",
+                "hyperparameters": "lr=0.001",
+                "optimizer": "Adam",
+                "criterion": "Contractive", 
+                "metrics": "None"
+            }
+    }, 
+    {
+        "type": "CONSTRUCT_GRAPHICS",
+        "flow": "constructGraphics.construct_loss_graphics_flow", 
+        "arguments": ["train", "train_val"]
+    },
+    {
+        "type": "SAVE_RESULTS",
+        "flow": "saveResults.save_results_flow", 
+        "path": "results.results_path"
+    }
+    ]
+}

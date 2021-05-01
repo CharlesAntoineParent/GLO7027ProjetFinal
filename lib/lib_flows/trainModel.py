@@ -182,7 +182,6 @@ def evaluate(model, criterion, metric, loader, device):
                     evaluation_loss = float(criterion(output_batch, input_batch))
                 else:
                     evaluation_loss = float(criterion(output_batch, target_batch))
-                    
                 loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
 
                 evaluation_metric = metric(output_batch, target_batch)

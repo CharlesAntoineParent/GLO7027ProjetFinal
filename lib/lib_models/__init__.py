@@ -1,1 +1,1 @@
-__all__ = ['classicAutoencoder', 'contractiveAutoencoder', 'irma']
+__all__ = ['classicAutoencoder', 'contractiveAutoencoder', 'irmaAutoencoder']
