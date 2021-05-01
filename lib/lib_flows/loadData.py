@@ -30,9 +30,6 @@ def load_CUB200_flow(dataset, transformation, split):
 def load_MNIST_flow(dataset, transformation, split):
     path = dataset['data_separated_path']
 
-    dataset_train = MNIST(path, train=True, download=False, transform=transformation)
-    dataset_test = MNIST(path, train=False, download=False, transform=transformation)
-
     if split == 0:
         dataset_train = MNIST(path, train=True, download=False, transform=transformation)
         dataset_test = MNIST(path, train=False, download=False, transform=transformation)

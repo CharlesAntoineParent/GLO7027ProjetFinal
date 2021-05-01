@@ -27,5 +27,6 @@ normalize_with_ImageNet = torchvision.transforms.Compose(
 normalize_with_MNIST = torchvision.transforms.Compose(
   [torchvision.transforms.ToTensor(),
   torchvision.transforms.Normalize(
-    mean=[0.485, 0.456, 0.406], 
-    std=[0.229, 0.224, 0.225])])
+    mean=(0.1307,), 
+    std=(0.3081,))
+  ])

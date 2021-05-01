@@ -6,7 +6,7 @@
     {
         "type": "LOAD_DATA",
         "flow": "loadData.load_MNIST_flow",
-        "transformation": "transformations.default_transformation",
+        "transformation": "transformations.normalize_with_MNIST",
         "split": "splits.average_val"
     }, 
     {
@@ -21,11 +21,11 @@
         "device": "devices.cuda", 
         "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
         "optimizer": "optimizers.Adam_optimizer",
-        "criterion": "losses.MSE_criterion_autoencoder",
+        "criterion": "losses.MSE_criterion",
         "metrics": "None",
         "labels": 
             {
-                "model": "resnet18",
+                "model": "ClassicAutoencoder",
                 "hyperparameters": "lr=0.001",
                 "optimizer": "Adam",
                 "criterion": "CrossEntropy", 

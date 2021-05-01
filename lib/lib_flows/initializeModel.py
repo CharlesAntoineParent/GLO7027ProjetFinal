@@ -16,6 +16,7 @@ def initialize_resnet18_flow(initialization, dataset, network = None):
         model.apply(initialization)
 
     model.fc = torch.nn.Linear(512, dataset['nb_classes'])
+    model.type = "Classic"
 
     return model
 

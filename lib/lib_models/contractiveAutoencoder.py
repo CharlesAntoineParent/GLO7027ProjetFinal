@@ -42,3 +42,7 @@ class Autoencoder(nn.Module):
         output = output_decoder.view(*shape)
  
         return [output_encoder, output]
+
+    @property
+    def type(self):
+        return "Autoencoder"

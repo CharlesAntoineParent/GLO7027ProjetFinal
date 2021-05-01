@@ -71,7 +71,11 @@ def learn(device, hyperparameters, model, optimizer, criterion, metric, train_lo
             target_batch = target_batch.to(device)
 
             output_batch = model(input_batch)
-            running_loss = criterion(output_batch, target_batch)
+
+            if model.type == "Autoencoder":
+                running_loss = criterion(output_batch, input_batch)
+            else:
+                running_loss = criterion(output_batch, target_batch)
 
             running_loss.backward()
             instantiated_optimizer.step()
@@ -135,7 +139,11 @@ def evaluate(model, criterion, metric, loader, device):
 
                 output_batch = model(input_batch)
 
-                evaluation_loss = float(criterion(output_batch, target_batch))
+                if model.type == "Autoencoder":
+                    evaluation_loss = float(criterion(output_batch, input_batch))
+                else:
+                    evaluation_loss = float(criterion(output_batch, target_batch))
+
                 loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
 
         metric_average = None
@@ -150,7 +158,11 @@ def evaluate(model, criterion, metric, loader, device):
 
                 output_batch = model(input_batch)
 
-                evaluation_loss = float(criterion(output_batch, target_batch))
+                if model.type == "Autoencoder":
+                    evaluation_loss = float(criterion(output_batch, input_batch))
+                else:
+                    evaluation_loss = float(criterion(output_batch, target_batch))
+
                 loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
 
                 evaluation_metric = [metric(output_batch, target_batch) for metric in metric]
@@ -166,7 +178,11 @@ def evaluate(model, criterion, metric, loader, device):
 
                 output_batch = model(input_batch)
 
-                evaluation_loss = float(criterion(output_batch, target_batch))
+                if model.type == "Autoencoder":
+                    evaluation_loss = float(criterion(output_batch, input_batch))
+                else:
+                    evaluation_loss = float(criterion(output_batch, target_batch))
+                    
                 loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
 
                 evaluation_metric = metric(output_batch, target_batch)
