@@ -1,3 +1,4 @@
+# pylint:disable=no-member
 """Module defining losses."""
 
 
@@ -6,25 +7,43 @@ import torch
 
 
 ## Losses definition
-def CrossEntropy_criterion(model, input_batch, target_batch):
+def CrossEntropy_criterion(input_batch, target_batch):
     loss = torch.nn.CrossEntropyLoss()
+  
+    return loss(input_batch, target_batch)
+
+def MSE_criterion(input_batch, target_batch):
+    loss = torch.nn.MSELoss()
 
     return loss(input_batch, target_batch)
 
-def MSE_criterion(model, input_batch, target_batch):
-  loss = torch.nn.BCELoss(size_average = False)
+def MSE_criterion_autoencoder(input_batch, target_batch):
+    loss = torch.nn.MSELoss()
 
-  return loss
+    return loss(input_batch, input_batch)
 
-def contractive_criterion(model, y_pred, y_true):
-    mse = K.mean(K.square(y_true - y_pred), axis=1)
+def contractive_criterion(input_batch, target_batch):
+    output = input_batch[1]
+    output_encoder = input_batch[0]
+    output_encoder_size = output_encoder.size()
 
-    W = K.variable(value=model.get_layer('encoded').get_weights()[0])  # N x N_hidden
-    W = K.transpose(W)  # N_hidden x N
-    h = model.get_layer('encoded').output
-    dh = h * (1 - h)  # N_batch x N_hidden
+    ones_tensor = torch.ones(output_encoder_size)
+    output_encoder.backward(ones_tensor, retain_graph=True)
 
-    # N_batch x N_hidden * N_hidden x 1 = N_batch x 1
-    contractive = lam * K.sum(dh**2 * K.sum(W**2, axis=1), axis=1)
+    loss = torch.nn.MSELoss(output, target_batch)
+    loss += torch.mean(pow(target_batch.grad, 2))
+    
+    return loss 
 
-    return mse + contractive
+def contractive_criterion_autoencoder(input_batch, target_batch):
+    output = input_batch[1]
+    output_encoder = input_batch[0]
+    output_encoder_size = output_encoder.size()
+
+    ones_tensor = torch.ones(output_encoder_size)
+    output_encoder.backward(ones_tensor, retain_graph=True)
+
+    loss = torch.nn.MSELoss(output, input_batch)
+    loss += torch.mean(pow(input_batch.grad, 2))
+    
+    return loss 

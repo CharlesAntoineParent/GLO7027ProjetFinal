@@ -11,9 +11,9 @@
     }, 
     {
         "type": "INITIALIZE_MODEL",
-        "flow": "initializeModel.initialize_irma4_AutoEncoder_flow",
+        "flow": "initializeModel.initialize_classicAutoEncoder_HalfHalf_flow",
         "initialization": "initializations.default_init", 
-        "network": ["classicEncoder.Encoder", "irma.Linear", "classicDecoder.Decoder"]
+        "network": "classicAutoencoder.Autoencoder"
     }, 
     {
         "type": "TRAIN_MODEL",
@@ -21,48 +21,20 @@
         "device": "devices.cuda", 
         "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
         "optimizer": "optimizers.Adam_optimizer",
-        "criterion": "losses.CrossEntropy_criterion",
-        "metrics": "metrics.accuracy_metric",
+        "criterion": "losses.MSE_criterion_autoencoder",
+        "metrics": "None",
         "labels": 
             {
                 "model": "resnet18",
                 "hyperparameters": "lr=0.001",
                 "optimizer": "Adam",
                 "criterion": "CrossEntropy", 
-                "metrics": "Accuracy"
-            }
-    }, 
-    {
-        "type": "INITIALIZE_MODEL",
-        "flow": "initializeModel.initialize_resnet18_flow",
-        "initialization": "initializations.pretrained", 
-        "network": "None"
-    }, 
-    {
-        "type": "TRAIN_MODEL",
-        "flow": "trainModel.train_model_flow",
-        "device": "devices.cuda", 
-        "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
-        "optimizer": "optimizers.Adam_optimizer",
-        "criterion": "losses.CrossEntropy_criterion",
-        "metrics": "metrics.accuracy_metric",
-        "labels": 
-            {
-                "model": "resnet18",
-                "hyperparameters": "lr=0.002",
-                "optimizer": "Adam",
-                "criterion": "CrossEntropy", 
-                "metrics": "Accuracy"
+                "metrics": "None"
             }
     }, 
     {
         "type": "CONSTRUCT_GRAPHICS",
         "flow": "constructGraphics.construct_loss_graphics_flow", 
-        "arguments": ["train", "train_val"]
-    },
-    {
-        "type": "CONSTRUCT_GRAPHICS",
-        "flow": "constructGraphics.construct_metrics_graphics_flow", 
         "arguments": ["train", "train_val"]
     },
     {
