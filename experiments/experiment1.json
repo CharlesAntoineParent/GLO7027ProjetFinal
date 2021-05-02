@@ -25,11 +25,11 @@
         "metrics": "metrics.frechet_metric",
         "labels": 
             {
-                "model": "classicAutoencoder",
+                "model": "Classic_Autoencoder",
                 "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
                 "criterion": "MSE", 
-                "metrics": "FretchetDistance"
+                "metrics": "Fretchet_Distance"
             }
     }, 
     {
@@ -45,19 +45,24 @@
         "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
         "optimizer": "optimizers.Adam_optimizer",
         "criterion": "losses.mse_criterion",
-        "metrics": "None",
+        "metrics": "metrics.frechet_metric",
         "labels": 
             {
-                "model": "classicIrmaAutoencoder",
+                "model": "Classic_Irma_Autoencoder",
                 "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
                 "criterion": "MSE", 
-                "metrics": "None"
+                "metrics": "Fretchet_Distance"
             }
     }, 
     {
         "type": "CONSTRUCT_GRAPHICS",
         "flow": "constructGraphics.construct_loss_graphics_flow", 
+        "arguments": ["train", "train_val"]
+    },
+    {
+        "type": "CONSTRUCT_GRAPHICS",
+        "flow": "constructGraphics.construct_metrics_graphics_flow", 
         "arguments": ["train", "train_val"]
     },
     {
