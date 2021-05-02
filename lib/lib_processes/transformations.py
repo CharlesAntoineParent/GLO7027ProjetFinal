@@ -3,7 +3,19 @@
 
 ## Import
 import torchvision
+import torch
 
+
+class AddGaussianNoise(object):
+    def __init__(self, mean=0., std=1.):
+        self.std = std
+        self.mean = mean
+        
+    def __call__(self, tensor):
+        return tensor + torch.randn(tensor.size()) * self.std + self.mean
+    
+    def __repr__(self):
+        return self.__class__.__name__ + '(mean={0}, std={1})'.format(self.mean, self.std)
 
 ## Parameters definition
 default_transformation = torchvision.transforms.Compose(
@@ -30,3 +42,15 @@ normalize_with_MNIST = torchvision.transforms.Compose(
     mean=(0.1307,), 
     std=(0.3081,))
   ])
+
+
+
+normalize_and_add_gaussian_noise_with_MNIST = torchvision.transforms.Compose(
+  [torchvision.transforms.ToTensor(),
+  torchvision.transforms.Normalize(
+    mean=(0.1307,), 
+    std=(0.3081,)),
+    AddGaussianNoise(0.1307, 0.3081)
+  ])
+
+
