@@ -1,5 +1,5 @@
 {
-    "label": "experimentIrma", 
+    "label": "experiment2", 
     "dataset": "datasets.data_MNIST", 
     "flows": 
     [
@@ -11,9 +11,9 @@
     }, 
     {
         "type": "INITIALIZE_MODEL",
-        "flow": "initializeModel.initialize_irma_autoencoder_base_base_flow",
+        "flow": "initializeModel.initialize_autoencoder_base_flow",
         "initialization": "initializations.default_init", 
-        "network": "irmaAutoencoder.Autoencoder"
+        "network": "contractiveAutoencoder.Autoencoder"
     }, 
     {
         "type": "TRAIN_MODEL",
@@ -21,12 +21,35 @@
         "device": "devices.cuda", 
         "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
         "optimizer": "optimizers.Adam_optimizer",
-        "criterion": "losses.mse_criterion",
+        "criterion": "losses.contractive_criterion",
         "metrics": "None",
         "labels": 
             {
-                "model": "IrmaAutoencoder",
-                "hyperparameters": "lr=0.001",
+                "model": "contractiveAutoencoder",
+                "hyperparameters": "lr=0.0001",
+                "optimizer": "Adam",
+                "criterion": "MSE", 
+                "metrics": "None"
+            }
+    }, 
+    {
+        "type": "INITIALIZE_MODEL",
+        "flow": "initializeModel.initialize_irma_autoencoder_base_base_flow",
+        "initialization": "initializations.default_init", 
+        "network": "classicIrmaAutoencoder.Autoencoder"
+    }, 
+    {
+        "type": "TRAIN_MODEL",
+        "flow": "trainModel.train_model_flow",
+        "device": "devices.cuda", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
+        "optimizer": "optimizers.Adam_optimizer",
+        "criterion": "losses.contractive_criterion",
+        "metrics": "None",
+        "labels": 
+            {
+                "model": "contractiveIrmaAutoencoder",
+                "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
                 "criterion": "MSE", 
                 "metrics": "None"
