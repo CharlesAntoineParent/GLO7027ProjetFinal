@@ -35,7 +35,7 @@ class Autoencoder(nn.Module):
 
         output = output_decoder.view(*shape)
  
-        return [dimensionLatente,output]
+        return output
 
     @property
     def type(self):
