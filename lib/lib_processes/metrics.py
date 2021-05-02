@@ -5,6 +5,7 @@
 ## Import
 import torch
 import numpy as np
+import scipy.linalg as linalg
 
 
 ## Metrics definition
@@ -25,8 +26,12 @@ def frechet_metric(input_batch, target_batch):
     input_batch_cov = np.cov(input_batch_array)
     target_batch_cov = np.cov(target_batch_array)
 
+    covmean, _ = linalg.sqrtm(np.dot(input_batch_cov, target_batch_cov), disp=False)
+    if np.iscomplexobj(covmean):
+        covmean = covmean.real
+
     frechet_distance = (np.dot(input_batch_mean - target_batch_mean, input_batch_mean - target_batch_mean) + 
-                np.trace(input_batch_cov + target_batch_cov - 2*np.sqrt(np.matmul(input_batch_cov,target_batch_cov))))
+                np.trace(input_batch_cov + target_batch_cov - 2*covmean))
 
     return frechet_distance
     
