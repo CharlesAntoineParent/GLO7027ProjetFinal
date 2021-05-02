@@ -52,3 +52,10 @@ normalize_and_add_gaussian_noise_with_MNIST = torchvision.transforms.Compose(
     std=(0.3081,)),
     AddGaussianNoise(0.1307, 0.3081)
   ])
+
+normalize_with_celebA = torchvision.transforms.Compose(
+  [torchvision.transforms.ToTensor(),
+  torchvision.transforms.Normalize(
+    mean=(0.50612009, 0.42543493, 0.38282761), 
+    std=(0.26589054, 0.24521921, 0.24127836))
+  ])
