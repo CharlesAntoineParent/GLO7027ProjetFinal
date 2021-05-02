@@ -16,8 +16,8 @@ import torch.optim as optim
 
 
 ## Définition du Data
-dataset_train = MNIST("data\\", train=True, download=False, transform=transformations.normalize_with_MNIST)
-dataset_test = MNIST("data\\", train=False, download=False, transform=transformations.normalize_with_MNIST)
+dataset_train = MNIST("data/", train=True, download=False, transform=transformations.normalize_with_MNIST)
+dataset_test = MNIST("data/", train=False, download=False, transform=transformations.normalize_with_MNIST)
 
 
 ## Creation d'un simple classificateur
