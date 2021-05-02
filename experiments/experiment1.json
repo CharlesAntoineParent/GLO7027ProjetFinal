@@ -22,14 +22,14 @@
         "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
         "optimizer": "optimizers.Adam_optimizer",
         "criterion": "losses.mse_criterion",
-        "metrics": "None",
+        "metrics": "metrics.frechet_metric",
         "labels": 
             {
                 "model": "classicAutoencoder",
                 "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
                 "criterion": "MSE", 
-                "metrics": "None"
+                "metrics": "FretchetDistance"
             }
     }, 
     {
