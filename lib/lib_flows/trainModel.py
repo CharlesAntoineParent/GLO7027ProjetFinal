@@ -160,12 +160,12 @@ def evaluate(model, criterion, metric, loader, device):
 
                 if model.type == "Autoencoder":
                     evaluation_loss = float(criterion(output_batch, input_batch))
+                    evaluation_metric = [metric(output_batch, input_batch) for metric in metric]
                 else:
                     evaluation_loss = float(criterion(output_batch, target_batch))
+                    evaluation_metric = [metric(output_batch, target_batch) for metric in metric]
 
                 loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
-
-                evaluation_metric = [metric(output_batch, target_batch) for metric in metric]
                 metric_average = [metric_average + evaluation_metric*(len(input_batch)/len(loader.dataset)) 
                                     for metric_average, evaluation_metric in zip(metric_average, evaluation_metric)]
     else:
@@ -180,11 +180,12 @@ def evaluate(model, criterion, metric, loader, device):
 
                 if model.type == "Autoencoder":
                     evaluation_loss = float(criterion(output_batch, input_batch))
+                    evaluation_metric = metric(output_batch, input_batch)
                 else:
                     evaluation_loss = float(criterion(output_batch, target_batch))
-                loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
+                    evaluation_metric = metric(output_batch, target_batch)
 
-                evaluation_metric = metric(output_batch, target_batch)
+                loss_average += evaluation_loss*(len(input_batch)/len(loader.dataset))
                 metric_average += evaluation_metric*(len(input_batch)/len(loader.dataset))
     
     return [loss_average, metric_average]
