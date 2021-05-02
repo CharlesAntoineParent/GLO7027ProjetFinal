@@ -49,8 +49,8 @@ def load_CelebA_flow(dataset, transformation, split):
     path = dataset['data_separated_path']
 
     if split == 0:
-        dataset_train = CelebA(path, train=True, download=False, transform=transformation)
-        dataset_test = CelebA(path, train=False, download=False, transform=transformation)
+        dataset_train = CelebA(path, split='train', download=False, transform=transformation)
+        dataset_test = CelebA(path, split='test', download=False, transform=transformation)
 
         return [dataset_train, dataset_test]
 
