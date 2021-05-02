@@ -6,6 +6,7 @@ import torchvision
 import torch
 
 
+## Utils
 class AddGaussianNoise(object):
     def __init__(self, mean=0., std=1.):
         self.std = std
@@ -17,6 +18,7 @@ class AddGaussianNoise(object):
     def __repr__(self):
         return self.__class__.__name__ + '(mean={0}, std={1})'.format(self.mean, self.std)
 
+        
 ## Parameters definition
 default_transformation = torchvision.transforms.Compose(
   [torchvision.transforms.ToTensor()]
@@ -43,8 +45,6 @@ normalize_with_MNIST = torchvision.transforms.Compose(
     std=(0.3081,))
   ])
 
-
-
 normalize_and_add_gaussian_noise_with_MNIST = torchvision.transforms.Compose(
   [torchvision.transforms.ToTensor(),
   torchvision.transforms.Normalize(
@@ -52,5 +52,3 @@ normalize_and_add_gaussian_noise_with_MNIST = torchvision.transforms.Compose(
     std=(0.3081,)),
     AddGaussianNoise(0.1307, 0.3081)
   ])
-
-
