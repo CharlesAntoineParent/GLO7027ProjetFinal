@@ -5,6 +5,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torch.optim as optim
 
 
 ## Model definition
@@ -28,13 +29,13 @@ class Autoencoder(nn.Module):
 
         output_encoder = self.encoder(input)
         output_encoder = F.relu(output_encoder)
-
+        dimensionLatente = output_encoder.detach()
         output_decoder = self.decoder(output_encoder)
         output_decoder = F.relu(output_decoder)
 
         output = output_decoder.view(*shape)
  
-        return output
+        return [dimensionLatente,output]
 
     @property
     def type(self):
