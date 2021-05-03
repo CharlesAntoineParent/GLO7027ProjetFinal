@@ -17,7 +17,7 @@ data_MNIST = {
   "train_path": "data_separated\\MNIST\\train\\",
   "test_path": "data_separated\\MNIST\\test\\",
   "nb_classes": 10,
-  "shape": [28, 28]
+  "shape": [1, 28, 28]
 }
 
 data_CIFAR10 = {
@@ -26,14 +26,5 @@ data_CIFAR10 = {
   "train_path": "data_separated\\CIFAR10\\train\\",
   "test_path": "data_separated\\CIFAR10\\test\\",
   "nb_classes": 10,
-  "shape": [32, 32]
-}
-
-data_CELEBA = {
-  "data_path": "data_raw\\CELEBA\\",
-  "data_separated_path": "data_separated\\",
-  "train_path": "data_separated\\CELEBA\\train\\",
-  "test_path": "data_separated\\CELEBA\\test\\",
-  "nb_classes": 10,
-  "shape": [28, 28]
+  "shape": [3, 32, 32]
 }

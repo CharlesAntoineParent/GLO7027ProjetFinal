@@ -11,7 +11,7 @@
     }, 
     {
         "type": "INITIALIZE_MODEL",
-        "flow": "initializeModel.initialize_autoencoder_base_flow",
+        "flow": "initializeModel.initialize_autoencoder_low_flow",
         "initialization": "initializations.default_init", 
         "network": "contractiveAutoencoder.Autoencoder"
     }, 
@@ -19,22 +19,22 @@
         "type": "TRAIN_MODEL",
         "flow": "trainModel.train_model_flow",
         "device": "devices.cuda", 
-        "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam", 
         "optimizer": "optimizers.Adam_optimizer",
         "criterion": "losses.contractive_criterion",
         "metrics": "None",
         "labels": 
             {
-                "model": "Contractive_Autoencoder",
+                "model": "LowContractiveAutoencoder",
                 "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
-                "criterion": "Contractive_Loss", 
+                "criterion": "ContractiveLoss", 
                 "metrics": "None"
             }
     }, 
     {
         "type": "INITIALIZE_MODEL",
-        "flow": "initializeModel.initialize_irma_autoencoder_base_base_flow",
+        "flow": "initializeModel.initialize_irma_autoencoder_low_low_flow",
         "initialization": "initializations.default_init", 
         "network": "contractiveIrmaAutoencoder.Autoencoder"
     }, 
@@ -42,23 +42,69 @@
         "type": "TRAIN_MODEL",
         "flow": "trainModel.train_model_flow",
         "device": "devices.cuda", 
-        "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam", 
         "optimizer": "optimizers.Adam_optimizer",
         "criterion": "losses.contractive_criterion",
         "metrics": "None",
         "labels": 
             {
-                "model": "Contractive_Irma_Autoencoder",
+                "model": "LowLowContractiveIrmaAutoencoder",
                 "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
-                "criterion": "Contractive_Loss", 
+                "criterion": "ContractiveLoss", 
+                "metrics": "None"
+            }
+    }, 
+    {
+        "type": "INITIALIZE_MODEL",
+        "flow": "initializeModel.initialize_irma_autoencoder_low_base_flow",
+        "initialization": "initializations.default_init", 
+        "network": "contractiveIrmaAutoencoder.Autoencoder"
+    }, 
+    {
+        "type": "TRAIN_MODEL",
+        "flow": "trainModel.train_model_flow",
+        "device": "devices.cuda", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam", 
+        "optimizer": "optimizers.Adam_optimizer",
+        "criterion": "losses.contractive_criterion",
+        "metrics": "None",
+        "labels": 
+            {
+                "model": "LowBaseContractiveIrmaAutoencoder",
+                "hyperparameters": "lr=0.0001",
+                "optimizer": "Adam",
+                "criterion": "ContractiveLoss", 
+                "metrics": "None"
+            }
+    }, 
+    {
+        "type": "INITIALIZE_MODEL",
+        "flow": "initializeModel.initialize_irma_autoencoder_low_high_flow",
+        "initialization": "initializations.default_init", 
+        "network": "contractiveIrmaAutoencoder.Autoencoder"
+    }, 
+    {
+        "type": "TRAIN_MODEL",
+        "flow": "trainModel.train_model_flow",
+        "device": "devices.cuda", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam", 
+        "optimizer": "optimizers.Adam_optimizer",
+        "criterion": "losses.contractive_criterion",
+        "metrics": "None",
+        "labels": 
+            {
+                "model": "LowHighContractiveIrmaAutoencoder",
+                "hyperparameters": "lr=0.0001",
+                "optimizer": "Adam",
+                "criterion": "ContractiveLoss", 
                 "metrics": "None"
             }
     }, 
     {
         "type": "CONSTRUCT_GRAPHICS",
         "flow": "constructGraphics.construct_loss_graphics_flow", 
-        "arguments": ["train", "train_val"]
+        "arguments": ["train", "val", "train_val"]
     },
     {
         "type": "SAVE_RESULTS",

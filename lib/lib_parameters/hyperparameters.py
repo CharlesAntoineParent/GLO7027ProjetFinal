@@ -2,7 +2,7 @@
 
 
 ## Parameters definition
-hyperparameters_Adam_1 = {
+hyperparameters_Adam = {
   "epochs": 2,
   "batch_size": 32,
   "hyperparameters_optimizer": {"lr": 0.0001}
