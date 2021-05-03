@@ -14,6 +14,8 @@ def accuracy_metric(input_batch, target_batch):
     return float((input_batch.argmax(-1) == target_batch).sum()/len(target_batch))
 
 def frechet_metric(input_batch, target_batch):
+    eps = 1e-6
+
     input_batch_flatten = torch.flatten(input_batch, start_dim=1)
     target_batch_flatten = torch.flatten(target_batch, start_dim=1)
 
@@ -27,6 +29,10 @@ def frechet_metric(input_batch, target_batch):
     target_batch_cov = np.cov(target_batch_array)
 
     covmean, _ = linalg.sqrtm(np.dot(input_batch_cov, target_batch_cov), disp=False)
+    if not np.isfinite(covmean).all():
+        offset = np.eye(input_batch_cov.shape[0])*eps
+        covmean = linalg.sqrtm(np.dot(input_batch_cov + offset, target_batch_cov + offset))
+
     if np.iscomplexobj(covmean):
         covmean = covmean.real
 

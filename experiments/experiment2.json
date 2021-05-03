@@ -25,10 +25,10 @@
         "metrics": "None",
         "labels": 
             {
-                "model": "contractiveAutoencoder",
+                "model": "Contractive_Autoencoder",
                 "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
-                "criterion": "MSE", 
+                "criterion": "Contractive_Loss", 
                 "metrics": "None"
             }
     }, 
@@ -36,7 +36,7 @@
         "type": "INITIALIZE_MODEL",
         "flow": "initializeModel.initialize_irma_autoencoder_base_base_flow",
         "initialization": "initializations.default_init", 
-        "network": "classicIrmaAutoencoder.Autoencoder"
+        "network": "contractiveIrmaAutoencoder.Autoencoder"
     }, 
     {
         "type": "TRAIN_MODEL",
@@ -48,10 +48,10 @@
         "metrics": "None",
         "labels": 
             {
-                "model": "contractiveIrmaAutoencoder",
+                "model": "Contractive_Irma_Autoencoder",
                 "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
-                "criterion": "MSE", 
+                "criterion": "Contractive_Loss", 
                 "metrics": "None"
             }
     }, 

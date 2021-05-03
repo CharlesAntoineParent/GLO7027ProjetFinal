@@ -1,0 +1,69 @@
+{
+    "label": "experiment3", 
+    "dataset": "datasets.data_CIFAR10", 
+    "flows": 
+    [
+    {
+        "type": "LOAD_DATA",
+        "flow": "loadData.load_CIFAR10_flow",
+        "transformation": "transformations.normalize_with_CIFAR_10",
+        "split": "splits.average_val"
+    }, 
+    {
+        "type": "INITIALIZE_MODEL",
+        "flow": "initializeModel.initialize_autoencoder_base_flow",
+        "initialization": "initializations.default_init", 
+        "network": "classicAutoencoder.Autoencoder"
+    }, 
+    {
+        "type": "TRAIN_MODEL",
+        "flow": "trainModel.train_model_flow",
+        "device": "devices.cuda", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
+        "optimizer": "optimizers.Adam_optimizer",
+        "criterion": "losses.mse_criterion",
+        "metrics": "None",
+        "labels": 
+            {
+                "model": "Classic_Autoencoder",
+                "hyperparameters": "lr=0.0001",
+                "optimizer": "Adam",
+                "criterion": "MSE_Loss", 
+                "metrics": "None"
+            }
+    }, 
+    {
+        "type": "INITIALIZE_MODEL",
+        "flow": "initializeModel.initialize_irma_autoencoder_base_base_flow",
+        "initialization": "initializations.default_init", 
+        "network": "classicIrmaAutoencoder.Autoencoder"
+    }, 
+    {
+        "type": "TRAIN_MODEL",
+        "flow": "trainModel.train_model_flow",
+        "device": "devices.cuda", 
+        "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
+        "optimizer": "optimizers.Adam_optimizer",
+        "criterion": "losses.mse_criterion",
+        "metrics": "None",
+        "labels": 
+            {
+                "model": "Classic_Irma_Autoencoder",
+                "hyperparameters": "lr=0.0001",
+                "optimizer": "Adam",
+                "criterion": "MSE_Loss", 
+                "metrics": "None"
+            }
+    }, 
+    {
+        "type": "CONSTRUCT_GRAPHICS",
+        "flow": "constructGraphics.construct_loss_graphics_flow", 
+        "arguments": ["train", "train_val"]
+    },
+    {
+        "type": "SAVE_RESULTS",
+        "flow": "saveResults.save_results_flow", 
+        "path": "results.results_path"
+    }
+    ]
+}

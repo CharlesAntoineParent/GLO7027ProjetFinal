@@ -22,14 +22,14 @@
         "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
         "optimizer": "optimizers.Adam_optimizer",
         "criterion": "losses.mse_criterion",
-        "metrics": "metrics.frechet_metric",
+        "metrics": "None",
         "labels": 
             {
                 "model": "Classic_Autoencoder",
                 "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
-                "criterion": "MSE", 
-                "metrics": "Fretchet_Distance"
+                "criterion": "MSE_Loss", 
+                "metrics": "None"
             }
     }, 
     {
@@ -45,24 +45,19 @@
         "hyperparameters": "hyperparameters.hyperparameters_Adam_1", 
         "optimizer": "optimizers.Adam_optimizer",
         "criterion": "losses.mse_criterion",
-        "metrics": "metrics.frechet_metric",
+        "metrics": "None",
         "labels": 
             {
                 "model": "Classic_Irma_Autoencoder",
                 "hyperparameters": "lr=0.0001",
                 "optimizer": "Adam",
-                "criterion": "MSE", 
-                "metrics": "Fretchet_Distance"
+                "criterion": "MSE_Loss", 
+                "metrics": "None"
             }
     }, 
     {
         "type": "CONSTRUCT_GRAPHICS",
         "flow": "constructGraphics.construct_loss_graphics_flow", 
-        "arguments": ["train", "train_val"]
-    },
-    {
-        "type": "CONSTRUCT_GRAPHICS",
-        "flow": "constructGraphics.construct_metrics_graphics_flow", 
         "arguments": ["train", "train_val"]
     },
     {

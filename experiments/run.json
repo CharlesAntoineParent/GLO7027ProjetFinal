@@ -1,0 +1,13 @@
+{
+    "label": "run", 
+    "dataset": "datasets.data_MNIST", 
+    "flows": 
+    [
+    {
+        "type": "LOAD_DATA",
+        "flow": "loadData.load_CIFAR10_flow", 
+        "transformation": "transformations.default_transformation",
+        "split": "splits.average_val"
+    }
+    ]
+}

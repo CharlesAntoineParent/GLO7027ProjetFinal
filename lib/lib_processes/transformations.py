@@ -45,6 +45,13 @@ normalize_with_MNIST = torchvision.transforms.Compose(
     std=(0.3081,))
   ])
 
+normalize_with_CIFAR_10 = torchvision.transforms.Compose(
+  [torchvision.transforms.ToTensor(),
+  torchvision.transforms.Normalize(
+    mean=(0.4914, 0.4822, 0.4465), 
+    std= (0.2023, 0.1994, 0.2010)),
+  ])
+
 normalize_and_add_gaussian_noise_with_MNIST = torchvision.transforms.Compose(
   [torchvision.transforms.ToTensor(),
   torchvision.transforms.Normalize(

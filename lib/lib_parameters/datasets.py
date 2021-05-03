@@ -19,3 +19,21 @@ data_MNIST = {
   "nb_classes": 10,
   "shape": [28, 28]
 }
+
+data_CIFAR10 = {
+  "data_path": "data_raw\\CIFAR10\\",
+  "data_separated_path": "data_separated\\",
+  "train_path": "data_separated\\CIFAR10\\train\\",
+  "test_path": "data_separated\\CIFAR10\\test\\",
+  "nb_classes": 10,
+  "shape": [32, 32]
+}
+
+data_CELEBA = {
+  "data_path": "data_raw\\CELEBA\\",
+  "data_separated_path": "data_separated\\",
+  "train_path": "data_separated\\CELEBA\\train\\",
+  "test_path": "data_separated\\CELEBA\\test\\",
+  "nb_classes": 10,
+  "shape": [28, 28]
+}
